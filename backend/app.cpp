@@ -20,6 +20,9 @@ int main() {
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
     listen(server_fd, 10);
 
+    char hostname[1024];
+    gethostname(hostname, 1024);
+
     std::cout << "Server listening on port 8080" << std::endl;
 
     while (true) {
@@ -28,7 +31,9 @@ int main() {
 
         std::string response =
             "HTTP/1.1 200 OK\nContent-Type: text/plain\n\n"
-            "Served by backend container\n";
+            "Served by: ";
+        response += hostname;
+        response += "\n";
 
         send(new_socket, response.c_str(), response.size(), 0);
         close(new_socket);
