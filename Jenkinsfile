@@ -12,10 +12,10 @@ pipeline {
             }
         }
 
-        stage('Create Docker Network') {
+        stage('Ensure Docker Network Exists') {
             steps {
                 sh """
-                docker network rm lab6-network || true
+                docker network inspect lab6-network >/dev/null 2>&1 || \
                 docker network create lab6-network
                 """
             }
